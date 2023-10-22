@@ -1,10 +1,13 @@
 import {connect} from '@planetscale/database';
 import fetch from 'node-fetch';
+import dotenv from 'dotenv';
+dotenv.config();
+
 const config = {
     fetch,
-    host: 'aws.connect.psdb.cloud',
-    username: 'qtzwn3m3r2q2wijwpxuy',
-    password: 'pscale_pw_qgRU4vlP7bg4gAGzOyhnHIosdiZV7HqcaP0Jr1vLDk6',
+    host: process.env.HOST,
+    username: process.env.USERNAME,
+    password: process.env.PASSWORD,
 };
 
 const conn = connect(config);
