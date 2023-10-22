@@ -2,9 +2,11 @@ import {connect} from '@planetscale/database';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 dotenv.config();
+import btoa from 'btoa';
 
 const config = {
     fetch,
+    btoa,
     host: process.env.HOST,
     username: process.env.USERNAME,
     password: process.env.PASSWORD,
