@@ -1,18 +1,21 @@
-import mysql from 'mysql2';
-const uri = 'mysql://rsme9lgkangjvjosmdga:pscale_pw_6OqH2aduELIC6zZTEGOQ9WCy5URDzsCxLkFm4Rdlqsr@aws.connect.psdb.cloud/restaurants?ssl={"rejectUnauthorized":true}';
-const pool = mysql.createPool(uri);
+import {connect} from '@planetscale/database';
+import fetch from 'node-fetch';
+const config = {
+    fetch,
+    host: 'aws.connect.psdb.cloud',
+    username: 'qtzwn3m3r2q2wijwpxuy',
+    password: 'pscale_pw_qgRU4vlP7bg4gAGzOyhnHIosdiZV7HqcaP0Jr1vLDk6',
+};
 
-function queryDB(query, values) {
-    return new Promise((resolve, reject) => {
-        pool.getConnection((err, connection) => {
-            if (err) reject(err);
-            connection.query(query, values, (error, results) => {
-                connection.release();
-                if (error) reject(error);
-                resolve(results);
-            });
-        });
-    });
+const conn = connect(config);
+
+async function queryDB(query, values) {
+    try {
+        const results = await conn.execute(query, values);
+        return results;
+    } catch (error) {
+        console.log('🚀 ~ file: planetScale.js:37 ~ error:', error);
+    }
 }
 
 export default queryDB;

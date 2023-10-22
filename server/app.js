@@ -42,7 +42,7 @@ const generateGoogleLinkAddress = (lat, lng) => {
 router.get('/all', async (ctx) => {
     try {
         const res = await queryDB('SELECT * FROM restaurants');
-        const data = res.map((item) => {
+        const data = res.rows.map((item) => {
             // const photos = JSON.parse(item.photos);
             // const photoRefrence = photos[0].photo_reference;
             // const photoLink = createGooglePhotoLink(photoRefrence);
@@ -129,7 +129,7 @@ router.post('/save', async (ctx) => {
 router.delete('/delete', async (ctx) => {
     const id = ctx.request.query.id;
     const getRestaurant = await queryDB(`SELECT * FROM restaurants WHERE id = '${id}'`);
-    if (getRestaurant) {
+    if (getRestaurant.rows.length > 0) {
         await queryDB(`DELETE FROM restaurants WHERE id = '${id}'`);
         ctx.body = true;
     } else {
