@@ -2,7 +2,7 @@ import {connect} from '@planetscale/database';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 dotenv.config();
-import btoa from 'btoa';
+import {btoa} from 'abab';
 
 const config = {
     fetch,
