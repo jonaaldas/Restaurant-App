@@ -1,12 +1,14 @@
+global.btoa = function (str) {
+    return Buffer.from(str, 'binary').toString('base64');
+};
+
 import {connect} from '@planetscale/database';
 import fetch from 'node-fetch';
 import dotenv from 'dotenv';
 dotenv.config();
-import {btoa} from 'abab';
 
 const config = {
     fetch,
-    btoa,
     host: process.env.HOST,
     username: process.env.USERNAME,
     password: process.env.PASSWORD,
