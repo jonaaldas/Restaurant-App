@@ -4,6 +4,7 @@ import cors from '@koa/cors';
 import axios from 'axios';
 import bodyParser from 'koa-bodyparser';
 import queryDB from './planetScale.js';
+import supabase from './subapase.js';
 
 const app = new Koa();
 const router = new Router();
@@ -41,11 +42,9 @@ const generateGoogleLinkAddress = (lat, lng) => {
 
 router.get('/all', async (ctx) => {
     try {
-        const res = await queryDB('SELECT * FROM restaurants');
-        const data = res.rows.map((item) => {
-            // const photos = JSON.parse(item.photos);
-            // const photoRefrence = photos[0].photo_reference;
-            // const photoLink = createGooglePhotoLink(photoRefrence);
+        const {data: allRestaurants, error} = await supabase.from('restaurants').select('*');
+
+        const data = allRestaurants.map((item) => {
             const addressLink = generateGoogleLinkAddress(item.latitude, item.longitude);
             const typeOfRestaurant = item.types.split(',');
             delete item.types;
@@ -71,53 +70,31 @@ router.post('/save', async (ctx) => {
     try {
         const data = await ctx.request.body;
         if (Object.keys(data).length > 0) {
-            const query = `
-        INSERT INTO restaurants (
-            business_status,
-            formatted_address,
-            latitude,
-            longitude,
-            icon_url,
-            icon_background_color,
-            icon_mask_base_uri,
-            name,
-            place_id,
-            price_level,
-            reference,
-            types,
-            user_ratings_total,
-            rating,
-            photos,
-            filter_type
-        )
-        VALUES
-            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `;
-            const values = [
-                data.business_status,
-                data.formatted_address,
-                data.geometry.location.lat,
-                data.geometry.location.lng,
-                data.icon,
-                data.icon_background_color,
-                data.icon_mask_base_uri,
-                data.name,
-                data.place_id,
-                data.price_level,
-                data.reference,
-                JSON.stringify(data.types),
-                data.user_ratings_total,
-                data.rating,
-                '',
-                data.filter_type,
-            ];
+            const record = {
+                business_status: data.business_status,
+                formatted_address: data.formatted_address,
+                latitude: data.geometry.location.lat,
+                longitude: data.geometry.location.lng,
+                icon_url: data.icon,
+                icon_background_color: data.icon_background_color,
+                icon_mask_base_uri: data.icon_mask_base_uri,
+                name: data.name,
+                place_id: data.place_id,
+                price_level: data.price_level,
+                reference: data.reference,
+                types: JSON.stringify(data.types), 
+                user_ratings_total: data.user_ratings_total,
+                rating: data.rating,
+                photos: '', 
+                filter_type: data.filter_type,
+            };
 
-            const result = await queryDB(query, values);
+            const {error} = await supabase.from('restaurants').insert(record);
 
-            if (result.affectedRows > 0) {
-                ctx.body = true;
-            } else {
+            if (error) {
                 ctx.body = false;
+            } else {
+                ctx.body = true;
             }
         }
     } catch (error) {
@@ -128,9 +105,14 @@ router.post('/save', async (ctx) => {
 
 router.delete('/delete', async (ctx) => {
     const id = ctx.request.query.id;
-    const getRestaurant = await queryDB(`SELECT * FROM restaurants WHERE id = '${id}'`);
-    if (getRestaurant.rows.length > 0) {
-        await queryDB(`DELETE FROM restaurants WHERE id = '${id}'`);
+
+    const {data: restaurants, error} = await supabase.from('restaurants').select('*').eq('id', id);
+
+    if (restaurants.length > 0) {
+        const {error} = await supabase.from('restaurants').delete().eq('id', id);
+        if (error) {
+            ctx.body = false;
+        }
         ctx.body = true;
     } else {
         ctx.body = false;
@@ -140,19 +122,27 @@ router.delete('/delete', async (ctx) => {
 // update rating and comment of restaurant
 router.put('/update', async (ctx) => {
     const {id} = ctx.request.query;
+    console.log('🚀 ~ file: app.js:129 ~ router.put ~ id:', id);
     const data = await ctx.request.body;
-    console.log('🚀 ~ file: index.ts:118 ~ router.put ~ data:', data);
+
     if (!data) {
         ctx.body = false;
     }
-    const res = await queryDB(`SELECT * FROM restaurants WHERE id = '${id}'`);
+    const {data: res, error} = await supabase.from('restaurants').select().eq('id', id);
 
     if (res) {
         try {
-            await queryDB(
-                `UPDATE restaurants SET valyas_rating = ${data.valyasRating}, jonathans_rating = ${data.jonathansRating}, jonathan_review = '${data.jonathansReview}', valya_review = '${data.valyasReview}', filter_type = '${data.filterType}'
-                WHERE id = ${id}`
-            );
+            const dataToUpdate = {
+                valyas_rating: data.valyasRating,
+                jonathans_rating: data.jonathansRating,
+                jonathan_review: data.jonathansReview,
+                valya_review: data.valyasReview,
+                filter_type: data.filterType,
+            };
+            const {error} = await supabase.from('restaurants').update(dataToUpdate).eq('id', id);
+            if (error) {
+                ctx.body = false;
+            }
             ctx.body = true;
         } catch (error) {
             console.log(error);
