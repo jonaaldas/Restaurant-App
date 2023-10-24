@@ -19,7 +19,6 @@ router.get('/', async (ctx) => {
 
 router.get('/search', async (ctx) => {
     const {name} = ctx.request.query;
-    console.log('🚀 ~ file: router.js:19 ~ router.get ~ name:', name);
 
     if (name) {
         try {
@@ -82,10 +81,10 @@ router.post('/save', async (ctx) => {
                 place_id: data.place_id,
                 price_level: data.price_level,
                 reference: data.reference,
-                types: JSON.stringify(data.types), 
+                types: JSON.stringify(data.types),
                 user_ratings_total: data.user_ratings_total,
                 rating: data.rating,
-                photos: '', 
+                photos: '',
                 filter_type: data.filter_type,
             };
 
@@ -151,8 +150,8 @@ router.put('/update', async (ctx) => {
     }
 });
 
-// app.use(router.routes()).use(router.allowedMethods());
 app.use(router.routes()).use(router.allowedMethods());
+
 app.listen(port, () => {
     console.log(`Running on port ${port}`);
 });
