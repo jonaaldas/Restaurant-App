@@ -3,7 +3,6 @@ import Router from '@koa/router';
 import cors from '@koa/cors';
 import axios from 'axios';
 import bodyParser from 'koa-bodyparser';
-import queryDB from './planetScale.js';
 import supabase from './subapase.js';
 
 const app = new Koa();
