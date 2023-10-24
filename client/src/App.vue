@@ -1,7 +1,10 @@
 <template>
-    <NavigationBar />
-    <Search />
-    <Restaurants />
+    <div>
+        <NavigationBar />
+        <Search />
+        <Filter />
+        <Restaurants />
+    </div>
 </template>
 
 <script>
@@ -9,23 +12,14 @@
     import NavigationBar from './components/NavigationBar.vue';
     import Search from './components/Search.vue';
     import Restaurants from './components/Restaurants.vue';
+    import Filter from './components/Filter.vue';
+
     export default {
-        data() {
-            return {
-                message: 'Hello Vue!',
-            };
-        },
         components: {
             NavigationBar,
             Search,
             Restaurants,
-        },
-        methods() {
-            return {
-                test() {
-                    console.log('test');
-                },
-            };
+            Filter,
         },
     };
 </script>
