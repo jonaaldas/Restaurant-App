@@ -2,7 +2,7 @@
     <div>
         <NavigationBar />
         <Search />
-        <Example />
+        <Filter />
         <Restaurants />
     </div>
 </template>
@@ -12,14 +12,14 @@
     import NavigationBar from './components/NavigationBar.vue';
     import Search from './components/Search.vue';
     import Restaurants from './components/Restaurants.vue';
-    import Example from './components/Example.vue';
+    import Filter from './components/Filter.vue';
 
     export default {
         components: {
             NavigationBar,
             Search,
             Restaurants,
-            Example,
+            Filter,
         },
     };
 </script>

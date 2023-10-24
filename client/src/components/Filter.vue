@@ -1,6 +1,7 @@
 <template>
     <div class="w-full">
         <span class="mr-2">Filters:</span>
+        <div class="badge cursor-pointer" @click="setFilter('all')">All</div>
         <div class="badge cursor-pointer" @click="setFilter('Fast Food')">Fast Food</div>
         <div class="badge cursor-pointer" @click="setFilter('Fast Dining')">Fast Dining</div>
         <div class="badge cursor-pointer" @click="setFilter('Casual Dining')">Casual Dining</div>

@@ -153,6 +153,16 @@ router.get('/filter', async (ctx) => {
     const {filterType} = ctx.request.query;
 
     if (filterType) {
+        if (filterType === 'all') {
+            const {data} = await supabase.from('restaurants').select('*');
+
+            if (data) {
+                ctx.body = data;
+                return;
+            } else {
+                ctx.body = false;
+            }
+        }
         try {
             const {data} = await supabase.from('restaurants').select('*').eq('filter_type', filterType);
 

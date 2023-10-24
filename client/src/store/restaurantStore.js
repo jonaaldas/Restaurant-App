@@ -12,18 +12,6 @@ export default createStore({
         addItem(state, item) {
             state.restaurants = item;
         },
-        // updateItem(state, updatedItem) {
-        //     const index = state.restaurants.findIndex((item) => item.id === updatedItem.id);
-        //     if (index !== -1) {
-        //         state.restaurants[index] = updatedItem;
-        //     }
-        // },
-        // deleteItem(state, id) {
-        //     const index = state.restaurants.findIndex((item) => item.id === id);
-        //     if (index !== -1) {
-        //         state.restaurants.splice(index, 1);
-        //     }
-        // },
     },
     actions: {
         async fetchRestaurants({commit}) {
@@ -39,27 +27,12 @@ export default createStore({
         async filter({commit}, filterType) {
             try {
                 const {data} = await axios.get(`http://localhost:4000/filter?filterType=${filterType}`);
+                // const {data} = await axios.get(`${serverUrl}filter?filterType=${filterType}`);
 
                 commit('addItem', data);
             } catch (error) {
                 console.error('An error occurred while creating an item:', error);
             }
         },
-        // async updateItem({commit}, updatedItem) {
-        //     try {
-        //         const response = await axios.put(`/api/items/${updatedItem.id}`, updatedItem); // Replace with your API endpoint
-        //         commit('updateItem', response.data);
-        //     } catch (error) {
-        //         console.error('An error occurred while updating an item:', error);
-        //     }
-        // },
-        // async deleteItem({commit}, id) {
-        //     try {
-        //         await axios.delete(`/api/items/${id}`); // Replace with your API endpoint
-        //         commit('deleteItem', id);
-        //     } catch (error) {
-        //         console.error('An error occurred while deleting an item:', error);
-        //     }
-        // },
     },
 });
