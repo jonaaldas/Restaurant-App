@@ -9,9 +9,9 @@ export default createStore({
         setItems(state, items) {
             state.restaurants = items;
         },
-        // addItem(state, item) {
-        //     state.restaurants.push(item);
-        // },
+        addItem(state, item) {
+            state.restaurants = item;
+        },
         // updateItem(state, updatedItem) {
         //     const index = state.restaurants.findIndex((item) => item.id === updatedItem.id);
         //     if (index !== -1) {
@@ -36,14 +36,15 @@ export default createStore({
                 console.error('An error occurred while fetching data:', error);
             }
         },
-        // async createItem({commit}, newItem) {
-        //     try {
-        //         const response = await axios.post('/api/items', newItem); // Replace with your API endpoint
-        //         commit('addItem', response.data);
-        //     } catch (error) {
-        //         console.error('An error occurred while creating an item:', error);
-        //     }
-        // },
+        async filter({commit}, filterType) {
+            try {
+                const {data} = await axios.get(`http://localhost:4000/filter?filterType=${filterType}`);
+
+                commit('addItem', data);
+            } catch (error) {
+                console.error('An error occurred while creating an item:', error);
+            }
+        },
         // async updateItem({commit}, updatedItem) {
         //     try {
         //         const response = await axios.put(`/api/items/${updatedItem.id}`, updatedItem); // Replace with your API endpoint
