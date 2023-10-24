@@ -1,7 +1,5 @@
 <template>
     <div>
-        <!-- loop goes here -->
-        <button @click="installPWA">install</button>
         <div class="card w-96 bg-base-100 shadow-xl" v-for="(restaurant, index) in restaurants" :key="index">
             <figure>
                 <img
