@@ -26,8 +26,8 @@ export default createStore({
         },
         async filter({commit}, filterType) {
             try {
-                const {data} = await axios.get(`http://localhost:4000/filter?filterType=${filterType}`);
-                // const {data} = await axios.get(`${serverUrl}filter?filterType=${filterType}`);
+                // const {data} = await axios.get(`http://localhost:4000/filter?filterType=${filterType}`);
+                const {data} = await axios.get(`${serverUrl}filter?filterType=${filterType}`);
 
                 commit('addItem', data);
             } catch (error) {
