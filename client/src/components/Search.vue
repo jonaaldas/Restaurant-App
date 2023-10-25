@@ -38,7 +38,7 @@
     import axios from 'axios';
     import StarRating from 'vue-star-rating';
     import {mapActions} from 'vuex';
-    const serverUrl = 'https://rate-the-raunt.onrender.com/';
+    const serverURL = import.meta.env.VITE_SERVER_URL;
     export default {
         data() {
             return {
@@ -63,8 +63,7 @@
 
                 if (isEnterKeyPressed || isSearchButtonClicked) {
                     try {
-                        // const {data} = await axios.get(`http://localhost:4000/search?name=${this.searchString}`);
-                        const {data} = await axios.get(`${serverUrl}search?name=${this.searchString}`);
+                        const {data} = await axios.get(`${serverURL}search?name=${this.searchString}`);
                         if (data.results.length > 0) {
                             this.showDropDown = true;
                             this.searchResults = data.results;
@@ -79,7 +78,7 @@
                 }
             },
             async save(result) {
-                const {data} = await axios.post(`${serverUrl}save`, result);
+                const {data} = await axios.post(`${serverURL}save`, result);
                 if (data) {
                     this.showDropDown = false;
                     this.searchString = '';

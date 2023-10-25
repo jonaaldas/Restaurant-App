@@ -73,7 +73,7 @@
 <script>
     import StarRating from 'vue-star-rating';
     import axios from 'axios';
-    const serverUrl = 'https://rate-the-raunt.onrender.com/';
+    const serverURL = import.meta.env.VITE_SERVER_URL;
     export default {
         props: ['restaurant', 'modal'],
         components: {
@@ -106,8 +106,7 @@
                     this.$toast.error('Please choose a filter');
                     return;
                 }
-                // const {data} = await axios.put(`http://localhost:4000/update?id=${id}`, newChanges);
-                const {data} = await axios.put(`${serverUrl}update?id=${id}`, newChanges);
+                const {data} = await axios.put(`${serverURL}update?id=${id}`, newChanges);
                 if (data) {
                     this.$toast.success('Successfully updated');
                     this.$emit('modal', false);

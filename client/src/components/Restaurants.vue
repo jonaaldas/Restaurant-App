@@ -81,7 +81,7 @@
     import Restaurant from './Restaurant.vue';
 
     import {mapActions, mapState} from 'vuex';
-    const serverUrl = 'https://rate-the-raunt.onrender.com/';
+    const serverURL = import.meta.env.VITE_SERVER_URL;
     export default {
         components: {
             StarRating,
@@ -105,8 +105,7 @@
             },
             async deleteRestaurant(id) {
                 try {
-                    // const {data} = await axios.delete(`http://localhost:4000/delete?id=${id}`);
-                    const {data} = await axios.delete(`${serverUrl}delete?id=${id}`);
+                    const {data} = await axios.delete(`${serverURL}delete?id=${id}`);
                     if (data) {
                         this.$toast.success('Successfully deleted');
                         this.fetchRestaurants();
