@@ -1,6 +1,7 @@
 import axios from 'axios';
 import {createStore} from 'vuex';
-const serverUrl = 'https://rate-the-raunt.onrender.com/';
+const serverURL = import.meta.env.VITE_SERVER_URL;
+console.log('🚀 ~ file: restaurantStore.js:4 ~ serverURL:', serverURL);
 export default createStore({
     state: {
         restaurants: [],
@@ -16,8 +17,7 @@ export default createStore({
     actions: {
         async fetchRestaurants({commit}) {
             try {
-                // const {data} = await axios.get('http://localhost:4000/all');
-                const {data} = await axios.get(`${serverUrl}all`);
+                const {data} = await axios.get(`${serverURL}all`);
 
                 commit('setItems', data);
             } catch (error) {
@@ -26,8 +26,7 @@ export default createStore({
         },
         async filter({commit}, filterType) {
             try {
-                // const {data} = await axios.get(`http://localhost:4000/filter?filterType=${filterType}`);
-                const {data} = await axios.get(`${serverUrl}filter?filterType=${filterType}`);
+                const {data} = await axios.get(`${serverURL}filter?filterType=${filterType}`);
 
                 commit('addItem', data);
             } catch (error) {
