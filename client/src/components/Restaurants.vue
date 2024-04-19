@@ -1,6 +1,7 @@
 <template>
 	<div class="flex flex-wrap m-2me">
-		<div class="sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/4 p-4" v-for="(restaurant, index) in restaurants" :key="index">
+		<div v-if="restaurants.length === 0">Sorry no Restaurants</div>
+		<div v-else class="sm:w-1/2 md:w-1/3 lg:w-1/3  p-4" v-for="(restaurant, index) in restaurants" :key="index">
 			<div class="card w-full bg-base-100 shadow-xl mb-4">
 				<figure>
 					<img
@@ -9,7 +10,7 @@
 					/>
 				</figure>
 				<div class="card-body">
-					<div class="flex">
+					<div class="flex items-center">
 						<img class="mr-2" :src="restaurant.icon_url" style="height: 20px; width: 20px" />
 						<h1 class="card-title">{{ restaurant.name }}</h1>
 					</div>
@@ -30,16 +31,16 @@
 						<span class="pr-2">Type of Restaurant</span>
 						<div class="badge badge-secondary mr-3" v-for="n in restaurant.typeOfRestaurant" :key="n">{{ n }}</div>
 					</div>
-					<div class="card-actions md:hidden lg:block">
+					<div class="card-actions flex flex-col md:hidden lg:block">
 						<span>Others Rating</span>
-						<star-rating class="flex-wrap" :rating="restaurant.rating" :read-only="true" :round-start-rating="false" />
+						<star-rating class="flex-wrap" :rating="restaurant.rating" :read-only="true" :round-start-rating="false" :star-size="30" />
 						<div v-if="restaurant.jonathans_rating > 0">
 							<span>Valya's Rating</span>
-							<star-rating class="flex-wrap" :rating="restaurant.jonathans_rating" :read-only="true" :round-start-rating="false" />
+							<star-rating class="flex-wrap" :rating="restaurant.jonathans_rating" :read-only="true" :round-start-rating="false" :star-size="30" />
 						</div>
 						<div v-if="restaurant.valyas_rating > 0">
 							<span>Jonathan's Rating</span>
-							<star-rating class="flex-wrap" :rating="restaurant.valyas_rating" :read-only="true" :round-start-rating="false" />
+							<star-rating class="flex-wrap" :rating="restaurant.valyas_rating" :read-only="true" :round-start-rating="false" :star-size="30" />
 						</div>
 					</div>
 					<div class="bg-white p-8 rounded shadow-lg md:hidden lg:block">
@@ -55,14 +56,11 @@
 					</div>
 					<div>
 						<button class="btn btn-secondary bg-base-200" @click="openModal(restaurants[index])">Add Rating</button>
-						<!-- <button class="btn danger" @click="deleteRestaurant(restaurants[index].id)">Delete</button> -->
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<!-- modal -->
-		<!-- Open the modal using ID.showModal() method -->
 		<Restaurant v-if="showModal" :restaurant="selectedRestaurant" @modal="handleModal" />
 	</div>
 </template>
@@ -71,9 +69,9 @@
 	import axios from 'axios';
 	import StarRating from 'vue-star-rating';
 	import Restaurant from './Restaurant.vue';
-
 	import {mapActions, mapState} from 'vuex';
 	const serverURL = import.meta.env.VITE_SERVER_URL;
+
 	export default {
 		components: {
 			StarRating,

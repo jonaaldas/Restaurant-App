@@ -34,18 +34,18 @@
 					<div v-else class="badge badge-primary">{{ restaurant.filter_type }}</div>
 				</div>
 				<div class="card-body">
-					<div class="card-actions flex flex-col sm:flex-row">
+					<div class="card-actions flex flex-col sm:flex-col">
 						<div>
 							<span class="text-xs sm:text-base">Others Rating</span>
-							<star-rating :rating="restaurant.rating" class="text-xs sm:text-base" :read-only="true" />
+							<star-rating :rating="restaurant.rating" class="text-xs sm:text-base" :read-only="true" :star-size="30"/>
 						</div>
 						<div>
 							<span class="text-xs sm:text-base">Valya's Rating</span>
-							<star-rating :rating="restaurant.valyas_rating" @update:rating="changeValyasRating" class="text-xs sm:text-base" />
+							<star-rating :rating="restaurant.valyas_rating" @update:rating="changeValyasRating" class="text-xs sm:text-base" :star-size="30"/>
 						</div>
 						<div>
 							<span class="text-xs sm:text-base">Jonathan's Rating</span>
-							<star-rating :rating="restaurant.jonathans_rating" @update:rating="changeJonathansRating" class="text-xs sm:text-base" />
+							<star-rating :rating="restaurant.jonathans_rating" @update:rating="changeJonathansRating" class="text-xs sm:text-base" :star-size="30"/>
 						</div>
 					</div>
 
