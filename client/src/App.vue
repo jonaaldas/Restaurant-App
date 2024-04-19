@@ -1,30 +1,14 @@
 <template>
-	<div class="container m-auto">
-		<NavigationBar />
-		<Search />
-		<Filter />
-		<Restaurants />
-		<Footer />
-	</div>
+	<NavBar />
+	<ClerkLoaded>
+		<RouterView />
+	</ClerkLoaded>
 </template>
 
-<script lnag="ts">
+<script setup>
 	import './assets/tailwind.css';
-	import NavigationBar from './components/NavigationBar.vue';
-	import Search from './components/Search.vue';
-	import Restaurants from './components/Restaurants.vue';
-	import Filter from './components/Filter.vue';
-	import Footer from './components/Footer.vue';
-
-	export default {
-		components: {
-			NavigationBar,
-			Search,
-			Restaurants,
-			Filter,
-			Footer
-		}
-	};
+	import {ClerkLoaded} from 'vue-clerk';
+	import NavBar from './components/NavBar.vue';
 </script>
 
 <style scoped></style>
